@@ -8,6 +8,8 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    AWS_REGION: z.string(),
+    AWS_GATEWAY_ENDPOINT: z.string(),
   },
 
   /**
@@ -25,6 +27,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    AWS_REGION: process.env.AWS_REGION,
+    AWS_GATEWAY_ENDPOINT: process.env.AWS_GATEWAY_ENDPOINT,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
