@@ -11,6 +11,7 @@ type Cert = {
 type CertSection = {
   cert_id: {S: string};
   section_id: {S: string};
+  flashcards: {S: Flashcard[]};
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,30 +35,6 @@ export class AwsService {
       },
     );
     return res;
-  }
-
-  public async getCertSections({key}: {key: string}) {
-    'use server';
-
-    const prefix = "flashcards";
-
-    const response = await this.makeFetchRequest({
-      method: "GET",
-      path: `${prefix}/${key}`,
-    });
-
-    const buffer = await response.arrayBuffer();
-    const uint8Array = new Uint8Array(buffer);
-    const textDecoder = new TextDecoder();
-    const jsonStr = textDecoder.decode(uint8Array);
-
-    const json = JSON.parse(jsonStr) as {Items: CertSection[]};
-
-    const sections = json.Items.map((item) => {
-      return item.section_id?.S;
-    });
-
-    return sections;
   }
 
   public async getCerts(): Promise<Cert[]> {
@@ -87,5 +64,66 @@ export class AwsService {
       console.error('error: ', error);
       return [];
     }
+  }
+
+  public async getFlashcards({cert, section}: {cert:string; section:string}): Promise<{q: string; a:string}[]> {
+    const prefix = "flashcards";
+
+    const response = await this.makeFetchRequest({
+      method: "GET",
+      path: `${prefix}/${cert}`,
+    });
+
+    const buffer = await response.arrayBuffer();
+    const uint8Array = new Uint8Array(buffer);
+    const textDecoder = new TextDecoder();
+    const jsonStr = textDecoder.decode(uint8Array);
+
+    const json = JSON.parse(jsonStr) as {Items: CertSection[]};
+
+    const certSection = json.Items.filter((item) => {
+      return item.section_id?.S === section;
+    });
+
+    if(certSection.length === 0) {
+      return [];
+    }
+    console.log(certSection[0]?.flashcards?.S);
+
+    const flashcardsArray = JSON.parse(certSection[0]?.flashcards?.S) as Flashcard[];
+    const flashcards = flashcardsArray.map((item) => {
+      const flashcardObj: {q:string, a:string} = {};
+
+      for(const key in item) {
+        flashcardObj.q = key;
+        flashcardObj.a = item[key];
+      }
+
+      return flashcardObj;
+    });
+
+    return flashcards ?? [];
+  }
+
+  public async getCertSections({cert}: {cert: string}) {
+    const prefix = "flashcards";
+
+    const response = await this.makeFetchRequest({
+      method: "GET",
+      path: `${prefix}/${cert}`,
+    });
+
+    const buffer = await response.arrayBuffer();
+    const uint8Array = new Uint8Array(buffer);
+    const textDecoder = new TextDecoder();
+    const jsonStr = textDecoder.decode(uint8Array);
+
+    const json = JSON.parse(jsonStr) as {Items: CertSection[]};
+
+    const sections = json.Items.map((item) => {
+      return item.section_id?.S;
+    });
+
+    return sections;
   }
 }
