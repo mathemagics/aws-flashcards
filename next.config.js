@@ -5,6 +5,16 @@
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "aws-flashcards.s3.us-east-2.amazonaws.com",
+        port: "",
+      }
+    ]
+  }
+};
 
 export default config;

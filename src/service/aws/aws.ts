@@ -3,8 +3,8 @@ type MethodType = "GET" | "POST" | "PUT" | "DELETE";
 type AnyType = any;
 
 type Cert = {
-  cert_id: string;
-  image: string;
+  cert_id: {S: string};
+  image: {S: string};
 };
 
 export class AwsService {
@@ -65,8 +65,9 @@ export class AwsService {
       const uint8Array = new Uint8Array(buffer);
       const textDecoder = new TextDecoder();
       const jsonStr = textDecoder.decode(uint8Array);
-
-      return JSON.parse(jsonStr) as Cert[] || [];
+      const json = JSON.parse(jsonStr)
+      console.log('jsonStr: ', json.Items);
+      return json.Items;
 
     } catch (error) {
       console.error('error: ', error);

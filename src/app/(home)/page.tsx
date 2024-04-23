@@ -19,9 +19,11 @@ export default async function HomePage() {
           AWS Flash Cards
         </h1>
         {certs?.map((cert) => (
-          <div key={cert.cert_id} className="flex flex-col items-center justify-center gap-4">
-            <h2 className="text-3xl font-bold">{cert.cert_id}</h2>
-            <Image src={cert.image} alt={`${cert.cert_id} certification logo`}/>
+          <div key={cert.cert_id.S} className="flex flex-col items-center justify-center gap-4">
+            <h2 className="text-3xl font-bold">{cert.cert_id.S}</h2>
+            <div className="size-40 relative">
+              <Image fill src={cert.image.S} alt={`${cert.cert_id.S} certification logo`}/>
+            </div>
           </div>
         ))}
       </div>
