@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import {AwsService} from "~/service/aws/aws";
 
 export default async function HomePage() {
@@ -18,14 +19,19 @@ export default async function HomePage() {
         <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem] text-center">
           AWS Flash Cards
         </h1>
-        {certs?.map((cert) => (
-          <div key={cert.cert_id.S} className="flex flex-col items-center justify-center gap-4">
-            <h2 className="text-3xl font-bold">{cert.cert_id.S}</h2>
-            <div className="size-40 relative">
-              <Image fill src={cert.image.S} alt={`${cert.cert_id.S} certification logo`}/>
-            </div>
-          </div>
-        ))}
+        {certs?.map((cert) => {
+          const name = cert.cert_id.S;
+          const imageUrl = cert.image.S;
+          return (
+            <Link key={name} href={`/certs/${name}`}>
+              <div className="flex flex-col items-center justify-center gap-4">
+                <div className="size-40 relative">
+                  <Image fill src={imageUrl} alt={`${name} certification logo`}/>
+                </div>
+              </div>
+            </Link>
+          )
+        })}
       </div>
     </main>
   );

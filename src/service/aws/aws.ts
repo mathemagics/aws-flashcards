@@ -1,3 +1,5 @@
+import { string } from "zod";
+
 type MethodType = "GET" | "POST" | "PUT" | "DELETE";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -5,6 +7,14 @@ type Cert = {
   cert_id: {S: string};
   image: {S: string};
 };
+
+type CertSection = {
+  cert_id: {S: string};
+  section_id: {S: string};
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Flashcard = Record<string, string> & Record<Exclude<keyof any, string>, never>;
 
 export class AwsService {
   private async makeFetchRequest({method, path}: {method: MethodType, path: string}) {
@@ -26,7 +36,7 @@ export class AwsService {
     return res;
   }
 
-  public async getFlashcardItem({key}: {key: string}) {
+  public async getCertSections({key}: {key: string}) {
     'use server';
 
     const prefix = "flashcards";
@@ -41,8 +51,13 @@ export class AwsService {
     const textDecoder = new TextDecoder();
     const jsonStr = textDecoder.decode(uint8Array);
 
-    // TODO FIX
-    return JSON.parse(jsonStr) as string[] || [];
+    const json = JSON.parse(jsonStr) as {Items: CertSection[]};
+
+    const sections = json.Items.map((item) => {
+      return item.section_id?.S;
+    });
+
+    return sections;
   }
 
   public async getCerts(): Promise<Cert[]> {
