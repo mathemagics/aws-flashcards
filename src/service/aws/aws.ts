@@ -1,6 +1,5 @@
 type MethodType = "GET" | "POST" | "PUT" | "DELETE";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyType = any;
 
 type Cert = {
   cert_id: {S: string};
@@ -65,8 +64,8 @@ export class AwsService {
       const uint8Array = new Uint8Array(buffer);
       const textDecoder = new TextDecoder();
       const jsonStr = textDecoder.decode(uint8Array);
-      const json = JSON.parse(jsonStr)
-      console.log('jsonStr: ', json.Items);
+
+      const json = JSON.parse(jsonStr) as {Items: Cert[]};
       return json.Items;
 
     } catch (error) {
