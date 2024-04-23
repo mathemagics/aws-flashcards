@@ -1,5 +1,3 @@
-import { string } from "zod";
-
 type MethodType = "GET" | "POST" | "PUT" | "DELETE";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -11,7 +9,7 @@ type Cert = {
 type CertSection = {
   cert_id: {S: string};
   section_id: {S: string};
-  flashcards: {S: Flashcard[]};
+  flashcards: {S: string};
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,18 +83,17 @@ export class AwsService {
       return item.section_id?.S === section;
     });
 
-    if(certSection.length === 0) {
+    if(!certSection[0]) {
       return [];
     }
-    console.log(certSection[0]?.flashcards?.S);
 
-    const flashcardsArray = JSON.parse(certSection[0]?.flashcards?.S) as Flashcard[];
+    const flashcardsArray = JSON.parse(certSection[0].flashcards?.S) as Flashcard[];
     const flashcards = flashcardsArray.map((item) => {
-      const flashcardObj: {q:string, a:string} = {};
+      const flashcardObj = {q: "", a: ""};;
 
       for(const key in item) {
         flashcardObj.q = key;
-        flashcardObj.a = item[key];
+        flashcardObj.a = item[key]!;
       }
 
       return flashcardObj;
