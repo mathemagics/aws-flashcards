@@ -3,7 +3,14 @@ import {AwsService} from "~/service/aws/aws";
 
 export default async function HomePage() {
   const awsService =  new AwsService();
-  const certs = await awsService.getCerts();
+  let certs;
+
+  try {
+    certs = await awsService.getCerts();
+  }
+  catch (error) {
+    console.error('error: ', error);
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#196f9a] to-[#05060c] text-white">

@@ -15,24 +15,16 @@ export class AwsService {
       throw new Error("AWS_GATEWAY_ENDPOINT not set");
     }
 
-    try {
-      const res = await fetch(
-        `${awsURL}${path ? `/${path}` : ""}`,
-        {
-          method,
-          headers: {
-            "Content-Type": "application/json",
-          },
+    const res = await fetch(
+      `${awsURL}${path ? `/${path}` : ""}`,
+      {
+        method,
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
-      if (!res.status.toString().startsWith("2")) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      return res;
-    } catch (error) {
-      console.error('error: ', error);
-      throw error;
-    }
+      },
+    );
+    return res;
   }
 
   public async getFlashcardItem({key}: {key: string}) {
@@ -64,6 +56,11 @@ export class AwsService {
         method: "GET",
         path: prefix,
       })
+
+      if(!response.status.toString().startsWith('2')) {
+        return [];
+      }
+
       const buffer = await response.arrayBuffer();
       const uint8Array = new Uint8Array(buffer);
       const textDecoder = new TextDecoder();
