@@ -1,3 +1,4 @@
+import { Flashcard, Card } from "~/component/base/flashcard";
 import { AwsService } from "~/service/aws/aws";
 
 export default async function FlashCardPage({
@@ -15,10 +16,14 @@ export default async function FlashCardPage({
           Flash Card Page
         </h1>
         {flashcards.map(({ id, question, answer }) => (
-          <div key={id}>
-            <h2>{question}</h2>
-            <p>{answer}</p>
-          </div>
+          <Flashcard key={id}>
+            <Card>
+              <h2>{question}</h2>
+            </Card>
+            <Card>
+              <p>{answer}</p>
+            </Card>
+          </Flashcard>
         ))}
       </div>
     </main>
