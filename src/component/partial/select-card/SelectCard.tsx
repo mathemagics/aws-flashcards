@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "~/component/ui/button";
 import {
   CardHeader,
@@ -25,13 +25,25 @@ type SelectCardProps = {
 
 export function SelectCard({ certs }: SelectCardProps) {
   const [sections, setSections] = useState<string[]>([]);
-  const [cert, setCert] = useState<string>("");
   const [section, setSection] = useState<string>("");
   const router = useRouter();
 
+  const path = usePathname();
+  const pathSegments = path.split("/").filter((segment) => segment !== "");
+  const [cert, setCert] = useState<string>(pathSegments[0] ?? "");
+
+  useEffect(() => {
+    async function getSections(cert: string) {
+      const sections = await getCertSections({ cert });
+      setSections(sections);
+    }
+    if (cert) {
+      void getSections(cert);
+    }
+  }, [cert]);
+
   const handleCertChange = async (value: string) => {
     setCert(value);
-    setSections(await getCertSections({ cert: value }));
   };
 
   const handleSectionChange = async (value: string) => {

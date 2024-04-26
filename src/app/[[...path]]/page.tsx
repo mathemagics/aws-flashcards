@@ -46,9 +46,9 @@ export default async function FlashCardPage({
       ) : (
         <div
           className={cn(
-            "flex items-center justify-center",
+            "flex items-center justify-center ",
             widthClass,
-            heightClass,
+            "h-[364px] md:h-[464px] lg:h-[564px]",
           )}
         >
           <SelectCard certs={certs} />
