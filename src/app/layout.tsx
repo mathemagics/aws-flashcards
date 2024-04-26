@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 
 import { Manrope } from "next/font/google";
+import { Page } from "~/component/layout/page";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -20,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${manrope.variable}`}>{children}</body>
+      <body className={`${manrope.variable}`}>
+        <Page>{children}</Page>
+      </body>
     </html>
   );
 }

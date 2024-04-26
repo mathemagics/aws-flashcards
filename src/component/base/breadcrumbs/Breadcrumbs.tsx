@@ -15,46 +15,59 @@ import {
 } from "~/component/ui/dropdown-menu";
 
 type BreadcrumbsProps = {
-  section: string;
-  sections: string[];
-  cert: { name: string; url: string };
+  section?: string;
+  sections?: string[];
+  cert?: { name: string; url: string };
 };
+
+const certs = [{ name: "developer associate", url: "developer-associate" }];
 
 export function Breadcrumbs({ section, cert, sections }: BreadcrumbsProps) {
   return (
-    <Breadcrumb className="absolute">
+    <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator>
-          <SlashIcon />
-        </BreadcrumbSeparator>
-        <BreadcrumbItem className="capitalize">
-          <BreadcrumbLink href={`/certs/${cert.url}`}>
-            {cert.name}
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator>
-          <SlashIcon />
-        </BreadcrumbSeparator>
-        <BreadcrumbItem>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-neutral-50">
-              {section}
+            <DropdownMenuTrigger className="flex items-center gap-1 capitalize text-neutral-50">
+              {cert?.name ?? "Certifications"}
               <ChevronDownIcon />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              {sections.map((section) => (
-                <DropdownMenuItem key={section}>
-                  <BreadcrumbLink href={`/certs/${cert.url}/${section}`}>
-                    {section}
+              {certs.map((cert) => (
+                <DropdownMenuItem key={cert.url}>
+                  <BreadcrumbLink href={`/${cert.url}`} className="capitalize">
+                    {cert.name}
                   </BreadcrumbLink>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </BreadcrumbItem>
+
+        {cert && sections && (
+          <>
+            <BreadcrumbSeparator>
+              <SlashIcon />
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-1 text-neutral-50">
+                  {section ?? "Sections"}
+                  <ChevronDownIcon />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {sections.map((section) => (
+                    <DropdownMenuItem key={section}>
+                      <BreadcrumbLink href={`/${cert.url}/${section}`}>
+                        {section}
+                      </BreadcrumbLink>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </BreadcrumbItem>
+          </>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   );

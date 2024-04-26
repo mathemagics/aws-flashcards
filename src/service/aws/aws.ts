@@ -1,19 +1,19 @@
 type MethodType = "GET" | "POST" | "PUT" | "DELETE";
 
-type Cert = {
+type CertType = {
   cert_name: string;
   image: string;
 };
 
-type Flashcard = {
+export type FlashcardType = {
   id: string;
   question: string;
   answer: string;
 };
 
-type CertSection = {
+type CertSectionType = {
   section_name: string;
-  flashcards: Flashcard[];
+  flashcards: FlashcardType[];
 };
 
 async function parseResponse<T>(response: Response): Promise<T> {
@@ -46,7 +46,7 @@ export class AwsService {
     return res;
   }
 
-  public async getCerts(): Promise<Cert[]> {
+  public async getCerts(): Promise<CertType[]> {
     const prefix = "certs";
 
     try {
@@ -54,7 +54,7 @@ export class AwsService {
         method: "GET",
         path: prefix,
       });
-      const result = await parseResponse<Cert[]>(response);
+      const result = await parseResponse<CertType[]>(response);
       return result;
     } catch (error) {
       console.error("error: ", error);
@@ -75,7 +75,7 @@ export class AwsService {
       method: "GET",
       path: `${prefix}/${cert}`,
     });
-    const result = await parseResponse<CertSection[]>(response);
+    const result = await parseResponse<CertSectionType[]>(response);
 
     // TODO handle this filtering in AWS
     const certSection = result.filter((item) => {
@@ -97,7 +97,7 @@ export class AwsService {
       path: `${prefix}/${cert}`,
     });
 
-    const result = await parseResponse<CertSection[]>(response);
+    const result = await parseResponse<CertSectionType[]>(response);
     const sections = result.map((section) => {
       return section.section_name;
     });

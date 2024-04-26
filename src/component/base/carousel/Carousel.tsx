@@ -130,7 +130,7 @@ export function CarouselProgress({ progress }: { progress: number }) {
   return (
     <div className="relative h-5 w-2/3 self-end justify-self-end overflow-hidden rounded-lg border">
       <div
-        className="absolute inset-y-0 -left-full w-full bg-white"
+        className="absolute inset-y-0 -left-full w-full bg-slate-200"
         style={{ transform: `translate3d(${progress}%,0px,0px)` }}
       />
     </div>
