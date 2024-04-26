@@ -7,7 +7,7 @@ export function Page({
   return (
     <main
       className={cn(
-        "min-h-svh w-full bg-gradient-to-b  from-[#196f9a] to-[#05060c] pt-20 text-white md:min-h-screen",
+        "min-h-svh w-full bg-black pt-20 text-slate-200 md:min-h-screen",
         className,
       )}
       {...props}
