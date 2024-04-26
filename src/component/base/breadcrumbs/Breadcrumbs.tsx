@@ -32,10 +32,10 @@ export function Breadcrumbs({
   return (
     <Breadcrumb className={className}>
       <BreadcrumbList>
-        <BreadcrumbItem>
+        <BreadcrumbItem className="hidden md:block">
           <BreadcrumbLink href="/">AWS Flashcards</BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator>
+        <BreadcrumbSeparator className="hidden md:block">
           <SlashIcon />
         </BreadcrumbSeparator>
         <BreadcrumbItem>

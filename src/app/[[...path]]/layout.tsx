@@ -30,7 +30,7 @@ export default async function CertLayout({
         section={section}
         cert={certItem}
         sections={sections}
-        className={cn("mb-4", widthClass)}
+        className={cn("mb-8", widthClass)}
       />
       {children}
     </div>
