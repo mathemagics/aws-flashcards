@@ -1,6 +1,6 @@
 import { type PropsWithChildren } from "react";
 import { Breadcrumbs } from "~/component/base/breadcrumbs";
-import { AwsService } from "~/service/aws/aws";
+import { getCertSections } from "~/service/aws/aws";
 import { widthClass } from "./config";
 import { cn } from "~/lib/utils";
 
@@ -21,8 +21,7 @@ export default async function CertLayout({
   let sections: string[] = [];
 
   if (cert) {
-    const awsService = new AwsService();
-    sections = await awsService.getCertSections({ cert });
+    sections = await getCertSections({ cert });
   }
 
   return (

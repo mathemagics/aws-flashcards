@@ -33,6 +33,12 @@ export function Breadcrumbs({
     <Breadcrumb className={className}>
       <BreadcrumbList>
         <BreadcrumbItem>
+          <BreadcrumbLink href="/">AWS Flashcards</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <SlashIcon />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 capitalize text-neutral-50">
               {cert?.name ?? "Certifications"}
@@ -41,9 +47,9 @@ export function Breadcrumbs({
             <DropdownMenuContent align="start">
               {certs.map((cert) => (
                 <DropdownMenuItem key={cert.url}>
-                  <BreadcrumbLink href={`/${cert.url}`} className="capitalize">
+                  <a href={`/${cert.url}`} className="w-full capitalize">
                     {cert.name}
-                  </BreadcrumbLink>
+                  </a>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -64,9 +70,9 @@ export function Breadcrumbs({
                 <DropdownMenuContent align="start">
                   {sections.map((section) => (
                     <DropdownMenuItem key={section}>
-                      <BreadcrumbLink href={`/${cert.url}/${section}`}>
+                      <a href={`/${cert.url}/${section}`} className="w-full">
                         {section}
-                      </BreadcrumbLink>
+                      </a>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>

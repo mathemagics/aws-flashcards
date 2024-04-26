@@ -8,7 +8,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "absolute flex flex-col items-center justify-center rounded-lg border bg-neutral-950 p-8 backface-hidden even:[transform:rotateY(180deg)] md:px-10",
+        "absolute flex flex-col items-center justify-center rounded-lg border bg-neutral-950 p-8 backface-hidden even:[transform:rotateY(180deg)] lg:px-10",
         className,
       )}
     >
