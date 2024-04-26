@@ -13,27 +13,25 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#196f9a] to-[#05060c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-center text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          AWS Flash Cards
-        </h1>
-        {certs?.map(({ image, cert_name }) => {
-          return (
-            <Link key={cert_name} href={`/certs/${cert_name}`}>
-              <div className="flex flex-col items-center justify-center gap-4">
-                <div className="relative size-40">
-                  <Image
-                    fill
-                    src={image}
-                    alt={`${cert_name} certification logo`}
-                  />
-                </div>
+    <div className="container flex flex-col items-center justify-center gap-12">
+      <h1 className="text-center text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+        AWS Flash Cards
+      </h1>
+      {certs?.map(({ image, cert_name }) => {
+        return (
+          <Link key={cert_name} href={`/certs/${cert_name}`}>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <div className="relative size-40">
+                <Image
+                  fill
+                  src={image}
+                  alt={`${cert_name} certification logo`}
+                />
               </div>
-            </Link>
-          );
-        })}
-      </div>
-    </main>
+            </div>
+          </Link>
+        );
+      })}
+    </div>
   );
 }

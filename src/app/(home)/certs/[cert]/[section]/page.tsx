@@ -4,7 +4,11 @@ import {
   CarouselSlide,
 } from "~/component/base/carousel/Carousel";
 import { Flashcard, Card } from "~/component/base/flashcard";
+import { cn } from "~/lib/style";
 import { AwsService } from "~/service/aws/aws";
+
+const widthClass = "w-[360px] md:w-[480px] lg:w-[800px]";
+const heightClass = "h-[300px] md:h-[400px] lg:h-[500px]";
 
 export default async function FlashCardPage({
   params: { cert, section },
@@ -15,26 +19,24 @@ export default async function FlashCardPage({
   const flashcards = await awsService.getFlashcards({ cert, section });
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#196f9a] to-[#05060c] text-white">
-      <div className="container flex flex-col items-center justify-center py-16 ">
-        <h1 className="mb-6 w-[400px] text-4xl font-bold">{section}</h1>
-        <Carousel showProgress showControls options={{ duration: 10 }}>
-          <CarouselContainer className="h-[300px] w-[400px]">
-            {flashcards.map(({ id, question, answer }) => (
-              <CarouselSlide key={id} className="h-[300px] w-[400px]">
-                <Flashcard>
-                  <Card className="h-[300px] w-[400px]">
-                    <h2>{question}</h2>
-                  </Card>
-                  <Card className="h-[300px] w-[400px]">
-                    <p>{answer}</p>
-                  </Card>
-                </Flashcard>
-              </CarouselSlide>
-            ))}
-          </CarouselContainer>
-        </Carousel>
-      </div>
-    </main>
+    <div className="flex flex-col items-center justify-center">
+      <h1 className={cn("mb-6 text-4xl font-bold", widthClass)}>{section}</h1>
+      <Carousel showProgress showControls options={{ duration: 10 }}>
+        <CarouselContainer className={cn(widthClass, heightClass)}>
+          {flashcards.map(({ id, question, answer }) => (
+            <CarouselSlide key={id}>
+              <Flashcard>
+                <Card className={cn(widthClass, heightClass)}>
+                  <h2>{question}</h2>
+                </Card>
+                <Card className={cn(widthClass, heightClass)}>
+                  <p>{answer}</p>
+                </Card>
+              </Flashcard>
+            </CarouselSlide>
+          ))}
+        </CarouselContainer>
+      </Carousel>
+    </div>
   );
 }
