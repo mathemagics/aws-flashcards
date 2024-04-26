@@ -2,6 +2,7 @@ import { type PropsWithChildren } from "react";
 import { Breadcrumbs } from "~/component/base/breadcrumbs";
 import { AwsService } from "~/service/aws/aws";
 import { widthClass } from "./config";
+import { cn } from "~/lib/utils";
 
 export default async function CertLayout({
   children,
@@ -26,10 +27,13 @@ export default async function CertLayout({
 
   return (
     <div className="container relative flex max-w-screen-lg flex-col items-center justify-center">
-      <div className={widthClass}>
-        <Breadcrumbs section={section} cert={certItem} sections={sections} />
-      </div>
-      <div className="pt-10">{children}</div>
+      <Breadcrumbs
+        section={section}
+        cert={certItem}
+        sections={sections}
+        className={cn("mb-4", widthClass)}
+      />
+      {children}
     </div>
   );
 }

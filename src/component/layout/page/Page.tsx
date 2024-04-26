@@ -7,7 +7,7 @@ export function Page({
   return (
     <main
       className={cn(
-        "min-h-svh w-full bg-black pt-20 text-slate-200 md:min-h-screen",
+        "flex min-h-svh w-full flex-col items-center justify-center bg-black pt-20 text-slate-200 md:min-h-screen",
         className,
       )}
       {...props}

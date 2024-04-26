@@ -18,13 +18,19 @@ type BreadcrumbsProps = {
   section?: string;
   sections?: string[];
   cert?: { name: string; url: string };
+  className?: string;
 };
 
 const certs = [{ name: "developer associate", url: "developer-associate" }];
 
-export function Breadcrumbs({ section, cert, sections }: BreadcrumbsProps) {
+export function Breadcrumbs({
+  section,
+  cert,
+  sections,
+  className,
+}: BreadcrumbsProps) {
   return (
-    <Breadcrumb>
+    <Breadcrumb className={className}>
       <BreadcrumbList>
         <BreadcrumbItem>
           <DropdownMenu>
