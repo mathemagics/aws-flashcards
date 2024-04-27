@@ -5,9 +5,9 @@ import {
 } from "~/component/base/carousel/Carousel";
 import { Flashcard, Card } from "~/component/base/flashcard";
 import { cn } from "~/lib/style";
-import { getCerts, getFlashcards, type FlashcardType } from "~/service/aws/aws";
+import { getCert } from "~/service/aws/aws";
 import { widthClass, heightClass } from "./config";
-import { SelectCard } from "~/component/partial/select-card";
+import { type FlashcardType } from "~/service/aws/types";
 
 export default async function FlashCardPage({
   params: { path },
@@ -17,16 +17,16 @@ export default async function FlashCardPage({
   };
 }) {
   const [cert, section] = path ?? [];
-  const certs = await getCerts();
-
   let flashcards: FlashcardType[] = [];
+
   if (cert) {
-    flashcards = await getFlashcards({ cert, section });
+    const certification = await getCert({ cert, section });
+    flashcards = certification?.flashcards ?? [];
   }
 
   return (
     <div className="flex flex-col items-center justify-center">
-      {flashcards.length ? (
+      {flashcards?.length > 0 && (
         <Carousel showProgress showControls options={{ duration: 10 }}>
           <CarouselContainer className={cn(widthClass, heightClass)}>
             {flashcards.map(({ id, question, answer }) => (
@@ -43,16 +43,6 @@ export default async function FlashCardPage({
             ))}
           </CarouselContainer>
         </Carousel>
-      ) : (
-        <div
-          className={cn(
-            "flex items-center justify-center ",
-            widthClass,
-            "h-[364px] md:h-[464px] lg:h-[564px]",
-          )}
-        >
-          <SelectCard certs={certs} />
-        </div>
       )}
     </div>
   );

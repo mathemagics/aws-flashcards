@@ -13,21 +13,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/component/ui/dropdown-menu";
+import { type GetCertsType } from "~/service/aws/types";
 
 type BreadcrumbsProps = {
   section?: string;
   sections?: string[];
-  cert?: { name: string; url: string };
+  cert?: GetCertsType;
   className?: string;
+  certs: GetCertsType[];
 };
-
-const certs = [{ name: "developer associate", url: "developer-associate" }];
 
 export function Breadcrumbs({
   section,
   cert,
-  sections,
   className,
+  certs,
 }: BreadcrumbsProps) {
   return (
     <Breadcrumb className={className}>
@@ -41,14 +41,14 @@ export function Breadcrumbs({
         <BreadcrumbItem>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 capitalize text-neutral-50">
-              {cert?.name ?? "Certifications"}
+              {cert?.cert_name ?? "Certifications"}
               <ChevronDownIcon />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               {certs.map((cert) => (
-                <DropdownMenuItem key={cert.url}>
-                  <a href={`/${cert.url}`} className="w-full capitalize">
-                    {cert.name}
+                <DropdownMenuItem key={cert.cert_id}>
+                  <a href={`/${cert.cert_id}`} className="w-full capitalize">
+                    {cert.cert_name}
                   </a>
                 </DropdownMenuItem>
               ))}
@@ -56,7 +56,7 @@ export function Breadcrumbs({
           </DropdownMenu>
         </BreadcrumbItem>
 
-        {cert && sections && (
+        {cert?.sections && (
           <>
             <BreadcrumbSeparator>
               <SlashIcon />
@@ -68,10 +68,13 @@ export function Breadcrumbs({
                   <ChevronDownIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                  {sections.map((section) => (
-                    <DropdownMenuItem key={section}>
-                      <a href={`/${cert.url}/${section}`} className="w-full">
-                        {section}
+                  {cert.sections.map(({ section_name }) => (
+                    <DropdownMenuItem key={section_name}>
+                      <a
+                        href={`/${cert.cert_id}/${section_name}`}
+                        className="w-full"
+                      >
+                        {section_name}
                       </a>
                     </DropdownMenuItem>
                   ))}
