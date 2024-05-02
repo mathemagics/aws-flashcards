@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import { type EmblaCarouselType } from "embla-carousel";
+import { useKeyListen } from "~/hook/useKeyListen";
 
 type UsePrevNextButtonsType = {
   prevBtnDisabled: boolean;
@@ -33,6 +34,9 @@ export const usePrevNextButtons = (
     emblaApi.scrollNext();
     if (onButtonClick) onButtonClick(emblaApi);
   }, [emblaApi, onButtonClick]);
+
+  useKeyListen(["ArrowLeft"], onPrevButtonClick);
+  useKeyListen(["ArrowRight"], onNextButtonClick);
 
   const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
     setPrevBtnDisabled(!emblaApi.canScrollPrev());

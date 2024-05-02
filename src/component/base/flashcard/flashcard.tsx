@@ -4,6 +4,7 @@ import { type PropsWithChildren } from "react";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useKeyListen } from "~/hook/useKeyListen";
 
 export function Flashcard({
   children,
@@ -19,18 +20,10 @@ export function Flashcard({
     }
   };
 
+  useKeyListen([" "], flipCard);
+
   return (
-    <div
-      className={className}
-      role="button"
-      tabIndex={0}
-      onClick={flipCard}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === "Space") {
-          flipCard();
-        }
-      }}
-    >
+    <div className={className} role="button" tabIndex={0} onClick={flipCard}>
       <motion.div
         className="size-full tstyle-preserve"
         initial={false}
