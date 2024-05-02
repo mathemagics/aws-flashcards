@@ -47,7 +47,7 @@ export function SelectCardClient({ certs, cert }: SelectCardProps) {
             <SelectItem
               key={cert.cert_id}
               value={cert.cert_id}
-              className="capitalize"
+              className="cursor-pointer capitalize"
             >
               {cert.cert_name}
             </SelectItem>
@@ -64,7 +64,11 @@ export function SelectCardClient({ certs, cert }: SelectCardProps) {
         </SelectTrigger>
         <SelectContent>
           {activeCert?.sections.map(({ section_name }) => (
-            <SelectItem key={section_name} value={section_name}>
+            <SelectItem
+              key={section_name}
+              value={section_name}
+              className="cursor-pointer"
+            >
               {section_name}
             </SelectItem>
           ))}

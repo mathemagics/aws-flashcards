@@ -3,7 +3,6 @@ import { Breadcrumbs } from "~/component/base/breadcrumbs";
 import { getCerts } from "~/service/aws/aws";
 import { widthClass } from "./config";
 import { cn } from "~/lib/utils";
-import { SelectCard } from "~/component/partial/select-card";
 
 export default async function CertLayout({
   children,
@@ -26,19 +25,7 @@ export default async function CertLayout({
         cert={activeCert}
         className={cn("mb-8", widthClass)}
       />
-      {cert && section ? (
-        children
-      ) : (
-        <div
-          className={cn(
-            "flex items-center justify-center ",
-            widthClass,
-            "h-[364px] md:h-[464px] lg:h-[564px]",
-          )}
-        >
-          <SelectCard certs={certs} cert={cert} />
-        </div>
-      )}
+      {children}
     </div>
   );
 }
