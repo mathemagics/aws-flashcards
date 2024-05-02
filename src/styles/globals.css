@@ -66,6 +66,27 @@
     }
 }
 
+@layer components {
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 100vh;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #000000;      /* Ensures the 'margin' appears transparent */
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 100vh;
+    background: rgba(255 255 255 / 0.8);
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-right: 2px solid transparent;
+    background-clip: content-box;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

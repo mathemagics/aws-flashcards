@@ -44,7 +44,7 @@ export function Breadcrumbs({
               {cert?.cert_name ?? "Certifications"}
               <ChevronDownIcon />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
+            <DropdownMenuContent align="start" className="max-h-[300px]">
               {certs.map((cert) => (
                 <DropdownMenuItem key={cert.cert_id}>
                   <a href={`/${cert.cert_id}`} className="w-full capitalize">
@@ -67,7 +67,10 @@ export function Breadcrumbs({
                   {section ?? "Sections"}
                   <ChevronDownIcon />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
+                <DropdownMenuContent
+                  align="start"
+                  className="scrollbar max-h-[312px] overflow-y-scroll"
+                >
                   {cert.sections.map(({ section_name }) => (
                     <DropdownMenuItem key={section_name}>
                       <a

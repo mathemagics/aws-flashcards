@@ -31,7 +31,15 @@ export async function getCerts() {
       path: prefix,
     });
     const result = await parseResponse<GetCertsType[]>(response);
-    return result;
+    const sortedSections = result.map((cert) => {
+      return {
+        ...cert,
+        sections: cert.sections.sort((a, b) =>
+          a.section_name.localeCompare(b.section_name),
+        ),
+      };
+    });
+    return sortedSections;
   } catch (error) {
     console.error("error: ", error);
     return [];
