@@ -1,10 +1,11 @@
 "use client";
 
-import { type PropsWithChildren } from "react";
+import { useRef, type PropsWithChildren } from "react";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useKeyListen } from "~/hook/useKeyListen";
+import { useIsVisible } from "~/hook/useIsVisible/useIsVisible";
 
 export function Flashcard({
   children,
@@ -12,9 +13,11 @@ export function Flashcard({
 }: PropsWithChildren<{ className?: string }>) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const ref = useRef(null);
+  const isVisibile = useIsVisible(ref);
 
   const flipCard = () => {
-    if (!isAnimating) {
+    if (!isAnimating && isVisibile) {
       setIsFlipped(!isFlipped);
       setIsAnimating(true);
     }
@@ -23,7 +26,13 @@ export function Flashcard({
   useKeyListen([" "], flipCard);
 
   return (
-    <div className={className} role="button" tabIndex={0} onClick={flipCard}>
+    <div
+      className={className}
+      role="button"
+      tabIndex={0}
+      onClick={flipCard}
+      ref={ref}
+    >
       <motion.div
         className="size-full tstyle-preserve"
         initial={false}
